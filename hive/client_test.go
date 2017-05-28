@@ -54,8 +54,8 @@ func TestLogin(t *testing.T) {
 	if client.Token != "1234567890" {
 		t.Errorf("client assigned token %q, want %q", client.Token, "1234567890")
 	}
-	if client.endpointBase != "https://example.com/api/version/" {
-		t.Errorf("client assigned endpoint %q, want %q", client.endpointBase, "https://example.com/api/version")
+	if client.EndpointURL != "https://example.com/api/version/" {
+		t.Errorf("client assigned endpoint %q, want %q", client.EndpointURL, "https://example.com/api/version")
 	}
 
 	if mock.url != creds.URL {

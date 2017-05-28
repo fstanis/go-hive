@@ -137,14 +137,24 @@ func (d *Device) Color() HSV {
 }
 
 // ColorTemperature returns the current temperature of this colored light bulb
-// which can be between 0 and 100, with 100 being the warmest possible setting.
-// Will return the last temperature value if the device is off or in color mode.
+// in kelvins. Will return the last temperature value if the device is off or
+// in color mode.
 func (d *Device) ColorTemperature() int {
 	if d.entity.State.ColourTemperature == nil {
 		return 0
 	}
-	temp := *d.entity.State.ColourTemperature
-	return temperatureToInt(temp)
+	return *d.entity.State.ColourTemperature
+}
+
+// ColorTemperaturePercent returns the current temperature of this colored light
+// bulb in percents between 0 and 100, with 100 being the warmest possible
+// setting. Will return the last temperature value if the device is off or in
+// color mode.
+func (d *Device) ColorTemperaturePercent() int {
+	if d.entity.State.ColourTemperature == nil {
+		return 0
+	}
+	return temperatureToPercent(d.ColorTemperature())
 }
 
 func (d *Device) Mode() string {

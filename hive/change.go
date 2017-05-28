@@ -58,20 +58,31 @@ func (c *Change) Color(hsv HSV) *Change {
 	return c
 }
 
-// ColorTemperature makes this change set the color temperature to the given
-// value. It will also change the lightbulb mode to *color temperature* if set
-// to *color*.Valid values are numbers between 0 and 100 (inclusive). An invalid
-// value will result in a panic.
+// ColorTemperature makes this change set the color temperature to the
+// given value (in kelvins). It will also change the lightbulb mode to *color
+// temperature* if set to *color*. Valid values are numbers between 2700 and
+// 6535 (inclusive). An invalid value will result in a panic.
 func (c *Change) ColorTemperature(temperature int) *Change {
-	if temperature < 0 || temperature > 100 {
+	if temperature < colorWarm || temperature > colorCold {
 		panic(errors.New("temperature must be between 0 and 1"))
 	}
 
-	teperatureVal := intToTemperature(temperature)
 	c.state.ColourMode = &colourModeWHITE
-	c.state.ColourTemperature = &teperatureVal
+	c.state.ColourTemperature = &temperature
 	c.resetHSV()
 	return c
+}
+
+// ColorTemperaturePercent makes this change set the color temperature to the
+// given percentage. It will also change the lightbulb mode to *color
+// temperature* if set to *color*. Valid values are numbers between 0 and 100
+// (inclusive). An invalid value will result in a panic.
+func (c *Change) ColorTemperaturePercent(percent int) *Change {
+	if percent < 0 || percent > 100 {
+		panic(errors.New("temperature must be between 0 and 100"))
+	}
+
+	return c.ColorTemperature(percentToTemperature(percent))
 }
 
 // TurnOn makes this change turn the light on.

@@ -41,10 +41,10 @@ type HSV struct {
 	Value int
 }
 
-func intToTemperature(i int) int {
+func percentToTemperature(i int) int {
 	return int(colorCold - (colorCold-colorWarm)*float64(i)/100)
 }
 
-func temperatureToInt(temperature int) int {
+func temperatureToPercent(temperature int) int {
 	return int(float64(colorCold-temperature)*100.0/float64(colorCold-colorWarm) + 0.5)
 }
